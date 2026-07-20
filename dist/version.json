@@ -1,7 +1,7 @@
 {
-  "versionCode": 2,
-  "versionName": "1.1.0",
-  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.1.0/agents-debug.apk",
-  "notes": "Равные карточки · SSOT 3ч · автообновление · человеческий язык",
+  "versionCode": 3,
+  "versionName": "1.2.0",
+  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.2.0/agents-debug.apk",
+  "notes": "Daily Digest: отчёт + взгляд (без выбора). Карточки, SSOT 3ч, автообновление.",
   "force": false
 }

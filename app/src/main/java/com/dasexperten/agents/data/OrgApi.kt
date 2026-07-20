@@ -113,6 +113,21 @@ class OrgApi(
         }
     }
 
+    /**
+     * Daily Digest deck: report (brief) + view (opinion) per agent.
+     * Same SSOT as board — no A/B choices on the phone.
+     */
+    fun digestAsks(locale: String = "ru"): DigestAsksResponse {
+        val req = requestBuilder("/api/digest/asks?locale=$locale").get().build()
+        client.newCall(req).execute().use { resp ->
+            val body = resp.body?.string().orEmpty()
+            if (!resp.isSuccessful) {
+                throw OrgApiException("digest_failed", "Дайджест: ${resp.code}")
+            }
+            return json.decodeFromString(body)
+        }
+    }
+
     fun chatHistory(slug: String, limit: Int = 80): ChatHistoryResponse {
         val req = requestBuilder("/api/agents/$slug/chat/history?limit=$limit").get().build()
         client.newCall(req).execute().use { resp ->

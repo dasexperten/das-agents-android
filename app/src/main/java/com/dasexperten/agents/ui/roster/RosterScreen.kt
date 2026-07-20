@@ -37,6 +37,7 @@ import com.dasexperten.agents.viewmodel.RosterViewModel
 fun RosterScreen(
     viewModel: RosterViewModel,
     onStartChat: (List<Agent>) -> Unit,
+    onOpenDigest: () -> Unit = {},
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val selectedCount = state.selectedSlugs.size
@@ -54,6 +55,11 @@ fun RosterScreen(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
+                    }
+                },
+                actions = {
+                    TextButton(onClick = onOpenDigest) {
+                        Text("Дайджест")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

@@ -20,10 +20,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dasexperten.agents.model.Agent
 import com.dasexperten.agents.ui.chat.ChatScreen
 import com.dasexperten.agents.ui.components.UpdateBanner
+import com.dasexperten.agents.ui.digest.DigestScreen
 import com.dasexperten.agents.ui.roster.RosterScreen
 import com.dasexperten.agents.ui.theme.DasAgentsTheme
 import com.dasexperten.agents.update.UpdateViewModel
 import com.dasexperten.agents.viewmodel.ChatViewModel
+import com.dasexperten.agents.viewmodel.DigestViewModel
 import com.dasexperten.agents.viewmodel.RosterViewModel
 
 class MainActivity : ComponentActivity() {
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
 
 private sealed interface Screen {
     data object Roster : Screen
+    data object Digest : Screen
     data class Chat(val agents: List<Agent>) : Screen
 }
 
@@ -51,6 +54,9 @@ private fun AgentsRoot() {
     )
     val updateVm: UpdateViewModel = viewModel(
         factory = UpdateViewModel.factory(app),
+    )
+    val digestVm: DigestViewModel = viewModel(
+        factory = DigestViewModel.factory(),
     )
     val updateState by updateVm.state.collectAsStateWithLifecycle()
     var screen by remember { mutableStateOf<Screen>(Screen.Roster) }
@@ -72,6 +78,13 @@ private fun AgentsRoot() {
                             screen = Screen.Chat(agents)
                         }
                     },
+                    onOpenDigest = { screen = Screen.Digest },
+                )
+            }
+            Screen.Digest -> {
+                DigestScreen(
+                    viewModel = digestVm,
+                    onBack = { screen = Screen.Roster },
                 )
             }
             is Screen.Chat -> {
