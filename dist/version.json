@@ -1,7 +1,7 @@
 {
-  "versionCode": 3,
-  "versionName": "1.2.0",
-  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.2.0/agents-debug.apk",
-  "notes": "Daily Digest: отчёт + взгляд (без выбора). Карточки, SSOT 3ч, автообновление.",
+  "versionCode": 4,
+  "versionName": "1.3.0",
+  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.3.0/agents-debug.apk",
+  "notes": "Digest UI = org.dasexperten.com (фото, Отчёт, Мой взгляд). Без выбора.",
   "force": false
 }
