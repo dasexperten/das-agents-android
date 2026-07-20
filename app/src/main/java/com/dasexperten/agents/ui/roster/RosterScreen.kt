@@ -44,7 +44,18 @@ fun RosterScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Агенты") },
+                title = {
+                    Column {
+                        Text("Агенты")
+                        if (state.lastSyncLabel != null) {
+                            Text(
+                                text = "SSOT · ${state.lastSyncLabel} · полный pack 3ч",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                 ),
@@ -64,10 +75,10 @@ fun RosterScreen(
                             .height(52.dp),
                     ) {
                         Text(
-                            text = if (selectedCount == 1) {
-                                "Чат · 1 агент"
-                            } else {
-                                "Чат · $selectedCount агента"
+                            text = when {
+                                selectedCount == 1 -> "Чат · 1 агент"
+                                selectedCount in 2..4 -> "Чат · $selectedCount агента"
+                                else -> "Чат · $selectedCount агентов"
                             }
                         )
                     }
@@ -77,7 +88,7 @@ fun RosterScreen(
     ) { padding ->
         PullToRefreshBox(
             isRefreshing = state.loading && state.agents.isNotEmpty(),
-            onRefresh = viewModel::refresh,
+            onRefresh = { viewModel.refresh(silent = false) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
@@ -98,24 +109,30 @@ fun RosterScreen(
                     ) {
                         Text(state.error ?: "", style = MaterialTheme.typography.bodyLarge)
                         Spacer(Modifier.height(12.dp))
-                        TextButton(onClick = viewModel::refresh) {
+                        TextButton(onClick = { viewModel.refresh() }) {
                             Text("Повторить")
                         }
                     }
                 }
                 else -> {
+                    // 2 equal columns; each tile is fixed height + always 2 name lines.
                     LazyVerticalGrid(
-                        columns = GridCells.Adaptive(minSize = 140.dp),
+                        columns = GridCells.Fixed(2),
                         contentPadding = PaddingValues(12.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
+                        userScrollEnabled = true,
                         modifier = Modifier.fillMaxSize(),
                     ) {
-                        items(state.agents, key = { it.slug }) { agent ->
+                        items(
+                            items = state.agents,
+                            key = { it.slug },
+                        ) { agent ->
                             AgentTile(
                                 agent = agent,
                                 selected = agent.slug in state.selectedSlugs,
                                 onClick = { viewModel.toggle(agent.slug) },
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
                     }

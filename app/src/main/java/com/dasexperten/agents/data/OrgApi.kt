@@ -87,6 +87,32 @@ class OrgApi(
         }
     }
 
+    /**
+     * Full SSOT pack for one agent (CHARTER + MEMORY + LEARNING + open actions + knowledge).
+     * Server refreshes every 3h; may lazy-build if stale.
+     */
+    fun agentSsot(slug: String): AgentSsotPack {
+        val req = requestBuilder("/api/agents/$slug/ssot").get().build()
+        client.newCall(req).execute().use { resp ->
+            val body = resp.body?.string().orEmpty()
+            if (!resp.isSuccessful) {
+                throw OrgApiException("ssot_failed", "SSOT $slug: ${resp.code}")
+            }
+            return json.decodeFromString(body)
+        }
+    }
+
+    fun ssotIndex(): SsotIndexResponse {
+        val req = requestBuilder("/api/ssot").get().build()
+        client.newCall(req).execute().use { resp ->
+            val body = resp.body?.string().orEmpty()
+            if (!resp.isSuccessful) {
+                throw OrgApiException("ssot_index_failed", "SSOT index: ${resp.code}")
+            }
+            return json.decodeFromString(body)
+        }
+    }
+
     fun chatHistory(slug: String, limit: Int = 80): ChatHistoryResponse {
         val req = requestBuilder("/api/agents/$slug/chat/history?limit=$limit").get().build()
         client.newCall(req).execute().use { resp ->
@@ -110,6 +136,8 @@ class OrgApi(
             put("channel", "board")
             put("use_history", true)
             put("source", "android")
+            // Owner: human language + every term explained in parentheses (server enforces too).
+            put("human_language", true)
             put(
                 "messages",
                 buildJsonArray {

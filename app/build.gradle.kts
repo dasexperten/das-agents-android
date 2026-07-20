@@ -13,11 +13,17 @@ android {
         applicationId = "com.dasexperten.agents"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
         buildConfigField("String", "ORG_BASE_URL", "\"https://org.dasexperten.com\"")
         // Leave empty unless Worker enforces DASORG_REQUIRE_KEY=1
         buildConfigField("String", "ORG_API_KEY", "\"\"")
+        // Auto-update manifest (versionCode + apkUrl). Bump on each release.
+        buildConfigField(
+            "String",
+            "UPDATE_MANIFEST_URL",
+            "\"https://raw.githubusercontent.com/dasexperten/das-agents-android/main/dist/version.json\"",
+        )
     }
 
     buildTypes {
@@ -71,4 +77,5 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
 }
