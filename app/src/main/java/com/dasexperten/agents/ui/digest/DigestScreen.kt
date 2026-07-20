@@ -268,11 +268,10 @@ private fun DigestSheet(
             )
             .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 28.dp),
     ) {
-        // Отчёт
+        // Отчёт / Мой взгляд — подписи как на org.dasexperten.com
         CapLabel("Отчёт")
-        CapText(slide.report.ifBlank { "Краткий репорт по этой работе ещё не подгрузился." })
+        CapText(slide.report.ifBlank { "Краткий отчёт по этой работе ещё не подгрузился." })
         Spacer(Modifier.height(12.dp))
-        // Мой взгляд
         CapLabel("Мой взгляд")
         CapText(
             slide.view.ifBlank { "Пока без отдельной рекомендации." },
@@ -296,11 +295,11 @@ private fun DigestSheet(
         }
 
         Text(
-            text = "ОСТАЛОСЬ ${total - index - 1} · ГОТОВО $index",
+            text = "Осталось ${total - index - 1} · готово $index",
             color = Color.White.copy(alpha = 0.55f),
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold,
-            letterSpacing = 1.sp,
+            letterSpacing = 0.8.sp,
             modifier = Modifier.padding(top = 16.dp),
         )
     }

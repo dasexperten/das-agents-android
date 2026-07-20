@@ -76,7 +76,7 @@ class DigestViewModel(
                         var reportPara = if (briefParts.isNotEmpty()) {
                             briefParts.joinToString(" ").replace(Regex("\\s+"), " ").trim()
                         } else {
-                            "Краткий репорт по этой работе ещё не подгрузился."
+                            "Краткий отчёт по этой работе ещё не подгрузился."
                         }
 
                         var viewPara = slide.opinion
@@ -125,7 +125,7 @@ class DigestViewModel(
                 _state.update {
                     it.copy(
                         loading = false,
-                        error = e.message ?: "Дайджест не загрузился",
+                        error = e.message ?: "Не удалось загрузить дайджест",
                     )
                 }
             }

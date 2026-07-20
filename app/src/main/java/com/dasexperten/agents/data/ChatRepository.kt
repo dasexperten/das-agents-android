@@ -65,7 +65,7 @@ class ChatRepository(
                             ChatMessage(
                                 id = "e-${agent.slug}-${UUID.randomUUID()}",
                                 role = ChatRole.Error,
-                                content = "${agent.initials}: ${e.message ?: "ошибка"}",
+                                content = "${agent.initials}: ${e.message ?: "не удалось ответить"}",
                                 agentSlug = agent.slug,
                                 agentName = agent.name,
                                 initials = agent.initials,

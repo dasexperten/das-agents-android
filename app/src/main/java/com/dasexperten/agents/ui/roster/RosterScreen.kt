@@ -26,8 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.dasexperten.agents.R
 import com.dasexperten.agents.model.Agent
 import com.dasexperten.agents.ui.components.AgentTile
 import com.dasexperten.agents.viewmodel.RosterViewModel
@@ -47,10 +49,13 @@ fun RosterScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Агенты")
+                        Text(stringResource(R.string.roster_title))
                         if (state.lastSyncLabel != null) {
                             Text(
-                                text = "SSOT · ${state.lastSyncLabel} · полный pack 3ч",
+                                text = stringResource(
+                                    R.string.roster_subtitle_sync,
+                                    state.lastSyncLabel ?: "",
+                                ),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -59,7 +64,7 @@ fun RosterScreen(
                 },
                 actions = {
                     TextButton(onClick = onOpenDigest) {
-                        Text("Дайджест")
+                        Text(stringResource(R.string.roster_digest))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -82,9 +87,15 @@ fun RosterScreen(
                     ) {
                         Text(
                             text = when {
-                                selectedCount == 1 -> "Чат · 1 агент"
-                                selectedCount in 2..4 -> "Чат · $selectedCount агента"
-                                else -> "Чат · $selectedCount агентов"
+                                selectedCount == 1 -> stringResource(R.string.roster_chat_one)
+                                selectedCount in 2..4 -> stringResource(
+                                    R.string.roster_chat_few,
+                                    selectedCount,
+                                )
+                                else -> stringResource(
+                                    R.string.roster_chat_many,
+                                    selectedCount,
+                                )
                             }
                         )
                     }
@@ -113,10 +124,13 @@ fun RosterScreen(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Text(state.error ?: "", style = MaterialTheme.typography.bodyLarge)
+                        Text(
+                            state.error ?: stringResource(R.string.roster_load_error),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
                         Spacer(Modifier.height(12.dp))
                         TextButton(onClick = { viewModel.refresh() }) {
-                            Text("Повторить")
+                            Text(stringResource(R.string.roster_retry))
                         }
                     }
                 }

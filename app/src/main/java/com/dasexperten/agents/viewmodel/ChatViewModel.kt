@@ -55,7 +55,7 @@ class ChatViewModel(
                     _state.update {
                         it.copy(
                             loadingHistory = false,
-                            error = e.message ?: "История не загрузилась",
+                            error = e.message ?: "Не удалось загрузить переписку",
                         )
                     }
                 }

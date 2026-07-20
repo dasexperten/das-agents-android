@@ -81,7 +81,7 @@ class OrgApi(
         client.newCall(req).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                throw OrgApiException("roster_failed", "Не удалось загрузить агентов (${resp.code})")
+                throw OrgApiException("roster_failed", "Не удалось загрузить список агентов")
             }
             return json.decodeFromString(body)
         }
@@ -96,7 +96,7 @@ class OrgApi(
         client.newCall(req).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                throw OrgApiException("ssot_failed", "SSOT $slug: ${resp.code}")
+                throw OrgApiException("ssot_failed", "Не удалось обновить данные агента")
             }
             return json.decodeFromString(body)
         }
@@ -107,7 +107,7 @@ class OrgApi(
         client.newCall(req).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                throw OrgApiException("ssot_index_failed", "SSOT index: ${resp.code}")
+                throw OrgApiException("ssot_index_failed", "Не удалось получить сводку данных")
             }
             return json.decodeFromString(body)
         }
@@ -122,7 +122,7 @@ class OrgApi(
         client.newCall(req).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                throw OrgApiException("digest_failed", "Дайджест: ${resp.code}")
+                throw OrgApiException("digest_failed", "Не удалось загрузить дайджест")
             }
             return json.decodeFromString(body)
         }
@@ -133,7 +133,7 @@ class OrgApi(
         client.newCall(req).execute().use { resp ->
             val body = resp.body?.string().orEmpty()
             if (!resp.isSuccessful) {
-                throw OrgApiException("history_failed", "История $slug: ${resp.code}")
+                throw OrgApiException("history_failed", "Не удалось загрузить переписку")
             }
             return json.decodeFromString(body)
         }
@@ -175,11 +175,17 @@ class OrgApi(
             val text = resp.body?.string().orEmpty()
             val parsed = runCatching { json.decodeFromString<ChatReplyResponse>(text) }
                 .getOrElse {
-                    throw OrgApiException("chat_parse", "Плохой ответ сервера (${resp.code})")
+                    throw OrgApiException("chat_parse", "Сервер вернул непонятный ответ")
                 }
             if (!resp.isSuccessful || parsed.ok != true || parsed.reply.isNullOrBlank()) {
-                val detail = parsed.detail ?: parsed.error ?: "HTTP ${resp.code}"
-                throw OrgApiException(parsed.error ?: "chat_failed", detail)
+                val detail = parsed.detail ?: parsed.error ?: "Нет ответа от агента"
+                // Never show raw codes to Boss — plain Russian
+                val plain = detail
+                    .replace(Regex("\\bHTTP\\s*\\d+\\b", RegexOption.IGNORE_CASE), "")
+                    .replace(Regex("\\b\\d{3}\\b"), "")
+                    .trim()
+                    .ifBlank { "Не удалось получить ответ. Попробуйте ещё раз." }
+                throw OrgApiException(parsed.error ?: "chat_failed", plain)
             }
             return parsed
         }

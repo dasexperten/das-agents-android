@@ -1,4 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Агенты</string>
+
+    <!-- Roster -->
+    <string name="roster_title">Агенты</string>
+    <string name="roster_subtitle_sync">Обновлено %1$s · полный снимок каждые 3 часа</string>
+    <string name="roster_digest">Дайджест</string>
+    <string name="roster_chat_one">Чат · 1 агент</string>
+    <string name="roster_chat_few">Чат · %1$d агента</string>
+    <string name="roster_chat_many">Чат · %1$d агентов</string>
+    <string name="roster_retry">Повторить</string>
+    <string name="roster_load_error">Не удалось загрузить список. Потяните вниз или нажмите «Повторить».</string>
+
+    <!-- Digest (как на org.dasexperten.com) -->
+    <string name="digest_title">Дайджест</string>
+    <string name="digest_report">Отчёт</string>
+    <string name="digest_my_view">Мой взгляд</string>
+    <string name="digest_empty">Сегодня пусто — открытых слайдов нет</string>
+    <string name="digest_retry">Повторить</string>
+    <string name="digest_left">Осталось %1$d · готово %2$d</string>
+    <string name="digest_report_fallback">Краткий отчёт по этой работе ещё не подгрузился.</string>
+    <string name="digest_view_fallback">Пока без отдельной рекомендации.</string>
+    <string name="digest_close">Закрыть</string>
+    <string name="digest_back">Назад</string>
+    <string name="digest_next">Дальше</string>
+
+    <!-- Chat -->
+    <string name="chat_back">Назад</string>
+    <string name="chat_placeholder">Сообщение…</string>
+    <string name="chat_send">Отправить</string>
+    <string name="chat_history_error">История не загрузилась</string>
+    <string name="chat_typing">печатает…</string>
+
+    <!-- Update -->
+    <string name="update_checking">Проверяю обновление…</string>
+    <string name="update_downloading">Скачиваю версию %1$s…</string>
+    <string name="update_available">Доступна версия %1$s</string>
+    <string name="update_install">Установить</string>
+    <string name="update_preparing">Готовится…</string>
+    <string name="update_later">Позже</string>
+    <string name="update_error">Обновление: %1$s</string>
+    <string name="update_file_missing">Файл обновления не найден</string>
 </resources>

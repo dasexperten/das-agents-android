@@ -1,7 +1,7 @@
 {
-  "versionCode": 4,
-  "versionName": "1.3.0",
-  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.3.0/agents-debug.apk",
-  "notes": "Digest UI = org.dasexperten.com (фото, Отчёт, Мой взгляд). Без выбора.",
+  "versionCode": 5,
+  "versionName": "1.4.0",
+  "apkUrl": "https://github.com/dasexperten/das-agents-android/releases/download/v1.4.0/agents-debug.apk",
+  "notes": "Все тексты по-русски. Дайджест: Отчёт и Мой взгляд. Жаргон в скобках.",
   "force": false
 }
